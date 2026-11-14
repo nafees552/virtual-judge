@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if disputes is defined %}
+<!-- ================================================================= -->
+<!-- LIST DISPUTES VIEW                                                -->
+<!-- ================================================================= -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h2 class="fw-bold mb-1"><i class="bi bi-card-list me-2 text-primary"></i>Evaluated Disputes</h2>
+        <p class="text-muted small mb-0">Browse through submitted debates and their multi-tier AI verdicts.</p>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <form method="GET" class="d-flex align-items-center gap-2">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search disputes..." value="{{ search_term or '' }}" style="width: 220px;">
+            <select name="status" class="form-select form-select-sm" style="width: 140px;" onchange="this.form.submit()">
+                <option value="">All Statuses</option>
+                <option value="resolved" {{ 'selected' if status_filter == 'resolved' else '' }}>Resolved</option>
+                <option value="waiting" {{ 'selected' if status_filter == 'waiting' else '' }}>Waiting</option>
+                <option value="flagged" {{ 'selected' if status_filter == 'flagged' else '' }}>Flagged</option>
+            </select>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-search"></i></button>
+            {% if search_term or status_filter %}
+                <a href="{{ url_for('disputes.list_disputes') }}" class="btn btn-sm btn-outline-secondary">Clear</a>
+            {% endif %}
+        </form>
+        <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-circle me-1"></i>New Dispute
+        </a>
+    </div>
+</div>
+
+{% if disputes %}
+<div class="row g-3">
+    {% for d in disputes %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border p-3 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                <span class="badge text-bg-dark border border-secondary small text-light">Case #{{ d.id }}</span>
+                <span class="badge text-bg-{{ 'success' if d.status == 'resolved' else 'warning' if d.status == 'waiting' else 'danger' }}">
+                    {{ d.status | capitalize }}
+                </span>
+            </div>
+            <h5 class="fw-bold mb-2 text-truncate" title="{{ d.title }}">{{ d.title }}</h5>
+            {% if d.description %}
+                <p class="text-muted small mb-3 text-truncate" title="{{ d.description }}">{{ d.description }}</p>
+            {% else %}
+                <p class="text-muted small mb-3 fst-italic">No additional description provided.</p>
+            {% endif %}
+
+            <div class="mt-auto border-top pt-2">
+                <div class="d-flex justify-content-between align-items-center mb-2 small text-muted">
+                    <span>{{ d.creator.username if d.creator else 'Side A' }} vs {{ d.invited.username if d.invited else 'Side B' }}</span>
+                    <span>{{ d.created_at.strftime('%b %d, %Y') if d.created_at else '' }}</span>
+                </div>
+                {% if d.ai_result %}
+                    <a href="{{ url_for('disputes.get_verdict', dispute_id=d.id) }}" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="bi bi-eye me-1"></i>View AI Verdict
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('disputes.get_dispute', dispute_id=d.id) }}" class="btn btn-outline-secondary btn-sm w-100">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>View Dispute Details
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card p-5 text-center text-muted shadow-sm border-0">
+    <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+    <h5>No disputes found</h5>
+    <p>Try clearing your search query or submit a new dispute.</p>
+    <div class="mt-2">
+        <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary btn-sm">Submit New Dispute</a>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<!-- ================================================================= -->
+<!-- SINGLE DISPUTE VIEW                                               -->
+<!-- ================================================================= -->
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="card shadow-sm border-0 mb-4 bg-dark-subtle">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge text-bg-primary fs-6">Case #{{ dispute.id }}</span>
+                    <span class="badge text-bg-{{ 'success' if dispute.status == 'resolved' else 'warning' if dispute.status == 'waiting' else 'danger' }} fs-6">
+                        Status: {{ dispute.status | capitalize }}
+                    </span>
+                </div>
+                <h2 class="fw-bold mb-2">{{ dispute.title }}</h2>
+                {% if dispute.description %}
+                    <p class="text-muted mb-0">{{ dispute.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if dispute.status == 'flagged' %}
+        <div class="alert alert-danger mb-4 shadow-sm" role="alert">
+            <h5 class="alert-heading fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i>Flagged by Safety Gatekeeper</h5>
+            <p class="mb-0">
+                Layer 1 text classification detected severe toxicity exceeding safety thresholds in one of the arguments. Execution was safely halted per the Gatekeeper protocol.
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- Existing Submissions -->
+        <h4 class="fw-bold mb-3"><i class="bi bi-chat-quote-fill me-2 text-primary"></i>Submitted Arguments</h4>
+        {% if submissions %}
+            <div class="row g-3 mb-4">
+                {% for s in submissions %}
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm border-{{ 'primary' if loop.first else 'success' }}-subtle">
+                        <div class="card-header bg-{{ 'primary' if loop.first else 'success' }}-subtle text-{{ 'primary' if loop.first else 'success' }} fw-bold">
+                            <i class="bi bi-person-fill me-1"></i>{{ s.user.username if s.user else ('Side A' if loop.first else 'Side B') }}
+                            <span class="badge text-bg-dark border border-secondary ms-1">{{ 'Side A' if loop.first else 'Side B' }}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0" style="white-space: pre-wrap; font-size: 0.95rem;">{{ s.argument_text }}</p>
+                            <div class="text-muted small mt-3 border-top pt-2">
+                                Submitted on {{ s.submitted_at.strftime('%b %d, %Y %I:%M %p') if s.submitted_at else 'Recent' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted mb-4">No arguments submitted yet.</p>
+        {% endif %}
+
+        <!-- If dispute is resolved, button to view verdict -->
+        {% if dispute.status == 'resolved' and ai_result %}
+        <div class="card border-success shadow-sm p-4 text-center mb-4 bg-success-subtle">
+            <h4 class="fw-bold text-success mb-2"><i class="bi bi-patch-check-fill me-2"></i>AI Evaluation Complete</h4>
+            <p class="text-muted mb-3">The multi-tier AI evaluation pipeline has analyzed both arguments and reached a verdict.</p>
+            <div>
+                <a href="{{ url_for('disputes.get_verdict', dispute_id=dispute.id) }}" class="btn btn-success btn-lg px-4 shadow-sm">
+                    <i class="bi bi-eye me-2"></i>View Official AI Verdict
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- If dispute is waiting for the opposing argument -->
+        {% if submissions|length < 2 and dispute.status == 'waiting' %}
+        <div class="card shadow-sm border-primary-subtle mb-4">
+            <div class="card-header bg-primary-subtle text-primary fw-bold py-3">
+                <i class="bi bi-pencil-square me-2"></i>Submit Opposing Argument (Side B)
+            </div>
+            <div class="card-body p-4">
+                <form id="submitArgumentForm" data-dispute-id="{{ dispute.id }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Participant Name</label>
+                        <input class="form-control" name="user_name" value="{{ dispute.invited.username if dispute.invited else 'Side B' }}" placeholder="Participant or side name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Argument Text</label>
+                        <textarea class="form-control" id="argumentText" name="argument_text" rows="6" placeholder="Present opposing argument, rebuttal, and evidence..." required></textarea>
+                        <div class="d-flex justify-content-between text-muted small mt-1">
+                            <span>Be objective, factual, and avoid fallacies.</span>
+                            <span id="wordCount">0 words</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary px-4" type="submit" id="submitArgumentBtn">
+                        <i class="bi bi-cpu me-2"></i>Submit & Run AI Evaluation
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ url_for('disputes.list_disputes') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Disputes
+            </a>
+            <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>Submit New Dispute
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

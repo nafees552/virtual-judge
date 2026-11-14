@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="p-4 p-md-5 rounded hero-section hero-premium mb-4 text-center">
+    <p class="hero-kicker mb-2 text-uppercase tracking-wide text-primary fw-bold">FAST School of Computing · Fall 2026</p>
+    <h1 class="display-5 fw-bold mb-3">Virtual Judge: <span class="hero-emphasis text-primary">AI-Assisted Argument Evaluation</span></h1>
+    <p class="lead hero-lead mb-4 mx-auto" style="max-width: 820px;">
+        A transparent, explainable three-tier AI system combining supervised text classification, Bayesian probabilistic reasoning, and constraint satisfaction to evaluate opposing arguments.
+    </p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+        <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary btn-lg px-4 hero-cta shadow">
+            <i class="bi bi-pencil-square me-2"></i>Submit New Dispute
+        </a>
+        <a href="{{ url_for('disputes.list_disputes') }}" class="btn btn-outline-primary btn-lg px-4 hero-cta-secondary">
+            <i class="bi bi-folder2-open me-2"></i>Browse Past Disputes
+        </a>
+        <a href="{{ url_for('disputes.statistics_page') }}" class="btn btn-outline-secondary btn-lg px-4 hero-cta-secondary">
+            <i class="bi bi-graph-up me-2"></i>Evaluation Benchmarks
+        </a>
+    </div>
+</section>
+
+<!-- Three-Tier AI Architecture (Strictly from Proposal) -->
+<section class="mb-4">
+    <div class="text-center mb-3">
+        <h3 class="fw-bold">Three-Tier AI Pipeline Architecture</h3>
+        <p class="text-muted">A sequential framework designed for transparent, explainable decision-making without black-box API dependencies.</p>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card h-100 step-card border-primary-subtle shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge text-bg-primary fs-6 me-2">Layer 1</span>
+                        <h5 class="card-title mb-0">Signal Extraction & Safety</h5>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        Trained <strong>Logistic Regression</strong> classifiers analyze TF-IDF features for Toxicity, Sarcasm, and Sentiment. Serves as an automated safety gatekeeper that flags toxic submissions.
+                    </p>
+                    <div class="step-preview mt-auto p-2 rounded text-muted small">
+                        <i class="bi bi-shield-check text-success me-1"></i> Toxicity · Sarcasm · Sentiment Signals
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 step-card border-info-subtle shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge text-bg-info text-white fs-6 me-2">Layer 2</span>
+                        <h5 class="card-title mb-0">Probabilistic Support Modeling</h5>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        A <strong>Bayesian Network</strong> (built with pgmpy) models uncertainty by fusing text signal probabilities with factual evidence and relevance indicators to calculate posterior support probabilities: P(Support_A) and P(Support_B).
+                    </p>
+                    <div class="step-preview mt-auto p-2 rounded text-muted small">
+                        <i class="bi bi-diagram-3 text-info me-1"></i> P(Support_A) vs P(Support_B) Posterior
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 step-card border-warning-subtle shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge text-bg-warning text-dark fs-6 me-2">Layer 3</span>
+                        <h5 class="card-title mb-0">Constraint Satisfaction (CSP)</h5>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        A custom <strong>CSP Solver</strong> enforces strict domain rules. It guarantees fair consideration, enforces confidence thresholds, and returns an <em>Inconclusive</em> verdict whenever evidence is insufficient or tied.
+                    </p>
+                    <div class="step-preview mt-auto p-2 rounded text-muted small">
+                        <i class="bi bi-check-all text-warning me-1"></i> Zero Rule Violations · Inconclusive Fallback
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- System Statistics Bar -->
+<section class="card mb-4 shadow-sm border-0 bg-dark-subtle">
+    <div class="card-body p-4">
+        <div class="row text-center g-3">
+            <div class="col-md-4">
+                <div class="stat-box">
+                    <div class="stat-icon text-primary mb-1"><i class="bi bi-archive-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold stat-counter" data-target="{{ stats.total_disputes if stats else 0 }}">{{ stats.total_disputes if stats else 0 }}</div>
+                    <div class="text-muted small text-uppercase fw-semibold">Total Submitted Disputes</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-box">
+                    <div class="stat-icon text-success mb-1"><i class="bi bi-patch-check-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold stat-counter" data-target="{{ stats.total_verdicts if stats else 0 }}">{{ stats.total_verdicts if stats else 0 }}</div>
+                    <div class="text-muted small text-uppercase fw-semibold">AI Verdicts Generated</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-box">
+                    <div class="stat-icon text-info mb-1"><i class="bi bi-people-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold stat-counter" data-target="{{ stats.total_users if stats else 0 }}">{{ stats.total_users if stats else 0 }}</div>
+                    <div class="text-muted small text-uppercase fw-semibold">Debate Participants</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Disputes -->
+<section class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="card-title mb-0 fw-bold"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Evaluated Disputes</h5>
+            <a href="{{ url_for('disputes.list_disputes') }}" class="small text-decoration-none">Browse all disputes &rarr;</a>
+        </div>
+        {% if recent_disputes %}
+        <div class="row g-3">
+            {% for dispute in recent_disputes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border p-3 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                        <h6 class="mb-0 fw-bold flex-grow-1 text-truncate" title="{{ dispute.title }}">{{ dispute.title }}</h6>
+                        <span class="badge text-bg-{{ 'success' if dispute.status == 'resolved' else 'warning' if dispute.status == 'waiting' else 'danger' }}">
+                            {{ dispute.status | capitalize }}
+                        </span>
+                    </div>
+                    <div class="case-vs mb-2 text-muted small">
+                        <span class="fw-semibold text-primary">{{ dispute.creator.username if dispute.creator else 'Side A' }}</span>
+                        <span class="mx-1">vs</span>
+                        <span class="fw-semibold text-success">{{ dispute.invited.username if dispute.invited else 'Side B' }}</span>
+                    </div>
+                    {% if dispute.ai_result %}
+                        <div class="d-flex justify-content-between align-items-center mb-3 small">
+                            <span>
+                                Winner: 
+                                <strong class="text-{{ 'warning' if dispute.ai_result.is_inconclusive else 'success' }}">
+                                    {{ 'Inconclusive' if dispute.ai_result.is_inconclusive or not dispute.ai_result.winner else dispute.ai_result.winner.username }}
+                                </strong>
+                            </span>
+                            <span class="text-muted">{{ (dispute.ai_result.confidence_score|float * 100)|round|int }}% conf</span>
+                        </div>
+                        <a href="{{ url_for('disputes.get_verdict', dispute_id=dispute.id) }}" class="btn btn-outline-primary btn-sm w-100 mt-auto">
+                            <i class="bi bi-eye me-1"></i>View Full Verdict
+                        </a>
+                    {% else %}
+                        <div class="text-muted small mb-3">Awaiting opposing argument...</div>
+                        <a href="{{ url_for('disputes.get_dispute', dispute_id=dispute.id) }}" class="btn btn-outline-secondary btn-sm w-100 mt-auto">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>View Dispute
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted">
+            <i class="bi bi-inbox fs-2 mb-2 d-block"></i>
+            <p>No disputes evaluated yet. Be the first to submit a debate!</p>
+            <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary btn-sm">Submit First Dispute</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

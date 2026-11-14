@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h4 class="mb-0 fw-bold"><i class="bi bi-file-earmark-diff me-2"></i>Submit Two-Sided Dispute</h4>
+                        <div class="small opacity-75">Input both opposing arguments for 3-tier AI evaluation (LR + Bayesian + CSP)</div>
+                    </div>
+                    <span class="badge text-bg-dark border border-light-subtle text-light fw-bold">Live AI Analysis</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form id="createDisputeForm">
+                    <!-- Dispute Topic -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Dispute Topic / Resolution <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-lg" name="title" placeholder="e.g. Artificial Intelligence should be strictly regulated by law" maxlength="200" required>
+                        <div class="form-text">State the central question or proposition being debated.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Background / Context (Optional)</label>
+                        <textarea class="form-control" name="description" rows="2" placeholder="Optional context or background details regarding this debate..." maxlength="1000"></textarea>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Two-Sided Arguments Section -->
+                    <div class="row g-4">
+                        <!-- Side A -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-primary-subtle shadow-none">
+                                <div class="card-header bg-primary-subtle text-primary fw-bold">
+                                    <i class="bi bi-person-fill me-1"></i> Side A (Proponent / Position A)
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-semibold">Participant / Side Name</label>
+                                        <input class="form-control" name="user_a_name" value="Side A" placeholder="e.g. Alice or Side A" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-semibold">Argument Text <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="argumentTextA" name="argument_text_a" rows="7" placeholder="Present the primary claim, reasoning, and evidence for Side A..." required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between text-muted small">
+                                        <span>Use empirical evidence and clear reasoning.</span>
+                                        <span id="wordCountA">0 words</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Side B -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success-subtle shadow-none">
+                                <div class="card-header bg-success-subtle text-success fw-bold">
+                                    <i class="bi bi-person-fill me-1"></i> Side B (Opponent / Position B)
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-semibold">Participant / Side Name</label>
+                                        <input class="form-control" name="user_b_name" value="Side B" placeholder="e.g. Bob or Side B" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-semibold">Argument Text <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="argumentTextB" name="argument_text_b" rows="7" placeholder="Present the counter-claim, rebuttal, and supporting evidence for Side B..." required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between text-muted small">
+                                        <span>Address the opposing claim directly.</span>
+                                        <span id="wordCountB">0 words</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-primary btn-lg px-5 shadow" type="submit" id="submitBtn">
+                            <i class="bi bi-cpu me-2"></i>Evaluate Dispute with Virtual Judge
+                        </button>
+                        <div class="text-muted small mt-2">
+                            Executes Layer 1 (LR Text Signals) &rarr; Layer 2 (Bayesian Inference) &rarr; Layer 3 (CSP Validation).
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

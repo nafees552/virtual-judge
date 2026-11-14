@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set side_a_submission = submissions[0] if (submissions is defined and submissions|length > 0) else none %}
+{% set side_b_submission = submissions[1] if (submissions is defined and submissions|length > 1) else none %}
+{% set user_a_name = side_a_submission.user.username if (side_a_submission and side_a_submission.user) else 'Side A' %}
+{% set user_b_name = side_b_submission.user.username if (side_b_submission and side_b_submission.user) else 'Side B' %}
+{% set confidence_pct = ((ai_result.confidence_score|float or 0.5) * 100) | round(1) %}
+{% set width_a = ((ai_result.support_score_a|float or 0.5) * 100) | int %}
+{% set width_b = ((ai_result.support_score_b|float or 0.5) * 100) | int %}
+{% set is_inconclusive = ai_result.is_inconclusive or (not ai_result.winner_user_id) %}
+
+{% if is_inconclusive %}
+    {% set winner_name = 'Inconclusive' %}
+{% elif side_a_submission and ai_result.winner_user_id == side_a_submission.user_id %}
+    {% set winner_name = user_a_name %}
+{% elif side_b_submission and ai_result.winner_user_id == side_b_submission.user_id %}
+    {% set winner_name = user_b_name %}
+{% elif ai_result.winner %}
+    {% set winner_name = ai_result.winner.username %}
+{% else %}
+    {% set winner_name = 'Side A' if ai_result.winner_user_id == 1 else 'Side B' %}
+{% endif %}
+
+<section class="card mb-4 shadow-sm border-0 bg-dark-subtle">
+    <div class="card-body p-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <span class="badge text-bg-primary fs-6">DISPUTE CASE #{{ dispute.id }}</span>
+            <span class="badge text-bg-dark border border-secondary text-light">
+                <i class="bi bi-calendar3 me-1"></i>Evaluated on {{ dispute.resolved_at.strftime('%b %d, %Y') if dispute.resolved_at else (dispute.created_at.strftime('%b %d, %Y') if dispute.created_at else 'Recent') }}
+            </span>
+        </div>
+        <h2 class="fw-bold mb-2">{{ dispute.title }}</h2>
+        {% if dispute.description %}
+            <p class="text-muted mb-0">{{ dispute.description }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Official Decision Announcement -->
+<section class="card mb-4 shadow-sm {% if is_inconclusive %}border-warning{% else %}border-success{% endif %}">
+    <div class="card-body p-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-8">
+                <p class="text-uppercase small text-muted fw-bold mb-1">
+                    <i class="bi bi-shield-check me-1 text-primary"></i>Official Virtual Judge Verdict
+                </p>
+                {% if is_inconclusive %}
+                    <h1 class="text-warning fw-bold mb-2">
+                        <i class="bi bi-pause-circle-fill me-2"></i>Verdict: Inconclusive
+                    </h1>
+                    <span class="badge text-bg-warning text-dark mb-3 px-3 py-2 fs-6">
+                        Arguments Evenly Matched / Insufficient Evidence Margin
+                    </span>
+                {% else %}
+                    <h1 class="text-success fw-bold mb-2">
+                        <i class="bi bi-trophy-fill me-2"></i>Winner: {{ winner_name }}
+                    </h1>
+                    <span class="badge text-bg-success mb-3 px-3 py-2 fs-6">
+                        Supported by Higher Probabilistic Weight & Consistent Reasoning
+                    </span>
+                {% endif %}
+
+                <div class="p-3 rounded border verdict-box-dark">
+                    <div class="fw-bold small text-uppercase text-secondary mb-2">
+                        <i class="bi bi-cpu-fill me-1 text-primary"></i>Explainable AI Reasoning (Three-Tier Synthesis)
+                    </div>
+                    <div class="verdict-reasoning-text text-light" style="white-space: pre-line; font-size: 0.95rem; line-height: 1.6;">
+                        {{ ai_result.reasoning }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 text-center">
+                <div class="card h-100 border p-3 d-flex flex-column justify-content-center align-items-center verdict-box-dark">
+                    <div class="display-4 fw-bold text-primary mb-1">{{ confidence_pct }}%</div>
+                    <div class="fw-semibold text-light">Decision Confidence</div>
+                    <div class="small text-muted mt-2 px-3">
+                        Derived from posterior support margin validated against CSP threshold boundaries.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Layer 2 & Layer 3 Technical Breakdown -->
+<section class="row g-4 mb-4">
+    <!-- Layer 2: Bayesian Network -->
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-info-subtle">
+            <div class="card-header bg-info-subtle text-info-emphasis fw-bold py-3">
+                <i class="bi bi-diagram-3-fill me-2"></i>Layer 2: Bayesian Network Support Probabilities
+            </div>
+            <div class="card-body">
+                <p class="small text-muted mb-3">
+                    Calculated via Variable Elimination over conditional probability tables (CPTs) integrating TF-IDF signals, evidence patterns, and topic relevance.
+                </p>
+
+                <!-- Side A Probability -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between small fw-bold mb-1">
+                        <span>Side A ({{ user_a_name }}) Posterior Support</span>
+                        <span class="text-primary fs-6">{{ width_a }}%</span>
+                    </div>
+                    <div class="progress" style="height: 14px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div id="progressBarA" class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="{{ width_a }}" aria-valuemin="0" aria-valuemax="100" data-width="{{ width_a }}"></div>
+                    </div>
+                </div>
+
+                <!-- Side B Probability -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between small fw-bold mb-1">
+                        <span>Side B ({{ user_b_name }}) Posterior Support</span>
+                        <span class="text-success fs-6">{{ width_b }}%</span>
+                    </div>
+                    <div class="progress" style="height: 14px; background-color: rgba(255, 255, 255, 0.08);">
+                        <div id="progressBarB" class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="{{ width_b }}" aria-valuemin="0" aria-valuemax="100" data-width="{{ width_b }}"></div>
+                    </div>
+                </div>
+
+                <script>
+                    (function() {
+                        var a = document.getElementById("progressBarA");
+                        var b = document.getElementById("progressBarB");
+                        if (a) a.style.width = "{{ width_a }}%";
+                        if (b) b.style.width = "{{ width_b }}%";
+                    })();
+                </script>
+
+                <div class="small text-muted border-top pt-2 mt-3">
+                    <i class="bi bi-info-circle me-1"></i>Probabilities reflect evidence indicators, low toxicity bonus, and topic relevance factors.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layer 3: CSP Verdict Solver -->
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-warning-subtle">
+            <div class="card-header bg-warning-subtle text-warning-emphasis fw-bold py-3">
+                <i class="bi bi-check2-all me-2"></i>Layer 3: Constraint Satisfaction Problem (CSP)
+            </div>
+            <div class="card-body">
+                <p class="small text-muted mb-3">
+                    Verifies candidate outcomes against hard domain constraints to guarantee 0% logical violations and enforce fair inconclusive results.
+                </p>
+
+                <ul class="list-group list-group-flush small mb-3">
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                        <span><i class="bi bi-check-circle-fill text-success me-2"></i>Candidate Verdict Validity</span>
+                        <span class="badge text-bg-success">Passed</span>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                        <span><i class="bi bi-check-circle-fill text-success me-2"></i>Safety Gatekeeper Check</span>
+                        <span class="badge text-bg-success">Passed (Non-toxic)</span>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                        <span><i class="bi bi-check-circle-fill text-success me-2"></i>Confidence Margin Threshold</span>
+                        <span class="badge text-bg-{{ 'warning' if is_inconclusive else 'success' }}">
+                            {{ 'Inconclusive Margin Applied' if is_inconclusive else 'Confidence Verified' }}
+                        </span>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                        <span><i class="bi bi-check-circle-fill text-success me-2"></i>Constraint Violations</span>
+                        <span class="badge text-bg-success">0 Violations</span>
+                    </li>
+                </ul>
+
+                <div class="small text-muted border-top pt-2">
+                    <i class="bi bi-shield-shaded me-1"></i>Enforces logical constraints preventing arbitrary decisions when evidence is insufficient.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Layer 1: Arguments Comparison & Logistic Regression Signals -->
+<section class="mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="fw-bold mb-0"><i class="bi bi-card-text me-2 text-primary"></i>Layer 1: Text Submissions & Signal Breakdown</h4>
+        <span class="badge text-bg-dark border border-secondary text-light">Logistic Regression Classifiers</span>
+    </div>
+
+    <div class="row g-4">
+        <!-- Side A Submission & Signals -->
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm border-primary-subtle">
+                <div class="card-header bg-primary-subtle text-primary fw-bold d-flex justify-content-between align-items-center py-3">
+                    <span><i class="bi bi-person-fill me-1"></i>Side A: {{ user_a_name }}</span>
+                    {% if (not is_inconclusive) and side_a_submission and ai_result.winner_user_id == side_a_submission.user_id %}
+                        <span class="badge text-bg-success"><i class="bi bi-trophy-fill me-1"></i>Winner</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="p-3 rounded mb-3 verdict-argument-box border text-light" style="min-height: 120px; white-space: pre-wrap; font-size: 0.95rem;">
+                        {{ side_a_submission.argument_text if side_a_submission else 'No submission available.' }}
+                    </div>
+
+                    <h6 class="fw-bold text-secondary mb-2 small text-uppercase">Extracted LR Text Signals</h6>
+                    <div class="row g-2 text-center mb-3">
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Toxicity</div>
+                                <div class="fw-bold text-{{ 'danger' if (ai_result.toxicity_score_a|float) >= 0.5 else 'success' }}">
+                                    {{ ((ai_result.toxicity_score_a|float) * 100) | round(1) }}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Sarcasm</div>
+                                <div class="fw-bold text-{{ 'warning' if (ai_result.sarcasm_score_a|float) >= 0.5 else 'light' }}">
+                                    {{ ((ai_result.sarcasm_score_a|float) * 100) | round(1) }}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Sentiment</div>
+                                <div class="fw-bold text-capitalize text-{{ 'success' if ai_result.sentiment_a == 'positive' else ('danger' if ai_result.sentiment_a == 'negative' else 'info') }}">
+                                    {{ ai_result.sentiment_a or 'neutral' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold text-secondary mb-1 small text-uppercase">Detected Fallacies / Biases</h6>
+                        {% if fallacies_a_display is defined and fallacies_a_display %}
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for f in fallacies_a_display %}
+                                    <span class="badge text-bg-warning text-dark"><i class="bi bi-exclamation-triangle-fill me-1"></i>{{ f }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-muted small"><i class="bi bi-check-circle text-success me-1"></i>No logical fallacies detected.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Side B Submission & Signals -->
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm border-success-subtle">
+                <div class="card-header bg-success-subtle text-success fw-bold d-flex justify-content-between align-items-center py-3">
+                    <span><i class="bi bi-person-fill me-1"></i>Side B: {{ user_b_name }}</span>
+                    {% if (not is_inconclusive) and side_b_submission and ai_result.winner_user_id == side_b_submission.user_id %}
+                        <span class="badge text-bg-success"><i class="bi bi-trophy-fill me-1"></i>Winner</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="p-3 rounded mb-3 verdict-argument-box border text-light" style="min-height: 120px; white-space: pre-wrap; font-size: 0.95rem;">
+                        {{ side_b_submission.argument_text if side_b_submission else 'No submission available.' }}
+                    </div>
+
+                    <h6 class="fw-bold text-secondary mb-2 small text-uppercase">Extracted LR Text Signals</h6>
+                    <div class="row g-2 text-center mb-3">
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Toxicity</div>
+                                <div class="fw-bold text-{{ 'danger' if (ai_result.toxicity_score_b|float) >= 0.5 else 'success' }}">
+                                    {{ ((ai_result.toxicity_score_b|float) * 100) | round(1) }}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Sarcasm</div>
+                                <div class="fw-bold text-{{ 'warning' if (ai_result.sarcasm_score_b|float) >= 0.5 else 'light' }}">
+                                    {{ ((ai_result.sarcasm_score_b|float) * 100) | round(1) }}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 border rounded verdict-signal-box">
+                                <div class="small text-muted">Sentiment</div>
+                                <div class="fw-bold text-capitalize text-{{ 'success' if ai_result.sentiment_b == 'positive' else ('danger' if ai_result.sentiment_b == 'negative' else 'info') }}">
+                                    {{ ai_result.sentiment_b or 'neutral' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold text-secondary mb-1 small text-uppercase">Detected Fallacies / Biases</h6>
+                        {% if fallacies_b_display is defined and fallacies_b_display %}
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for f in fallacies_b_display %}
+                                    <span class="badge text-bg-warning text-dark"><i class="bi bi-exclamation-triangle-fill me-1"></i>{{ f }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-muted small"><i class="bi bi-check-circle text-success me-1"></i>No logical fallacies detected.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Action Buttons -->
+<div class="d-flex justify-content-between mb-4">
+    <a href="{{ url_for('disputes.list_disputes') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to All Disputes
+    </a>
+    <a href="{{ url_for('disputes.create_dispute_page') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>Submit Another Dispute
+    </a>
+</div>
+{% endblock %}

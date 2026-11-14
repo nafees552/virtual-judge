@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Should remote work be standard for software engineering?",
+    "argument_a": "Remote work increases productivity and satisfaction. According to a 2024 Stanford study of over 16,000 workers, employees working from home demonstrated a 13% performance increase and 50% lower attrition rates.",
+    "argument_b": "I just prefer going to the office because it feels more normal to chat at coffee breaks."
+  },
+  {
+    "id": 2,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Is nuclear power essential for deep carbon decarbonization?",
+    "argument_a": "Nuclear energy is bad and scary, we should just hope for sunny days and wind.",
+    "argument_b": "Nuclear energy provides critical zero-emission baseload power. According to the International Energy Agency (IEA) 2023 report, nuclear prevents 1.5 gigatonnes of global greenhouse gas emissions annually while maintaining over 92% capacity factor."
+  },
+  {
+    "id": 3,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does public transit investment reduce urban traffic congestion?",
+    "argument_a": "A 2022 peer-reviewed transport study analyzing 40 metropolitan areas showed that every 10% increase in rail transit capacity reduced vehicular highway congestion by 7.4% and cut urban emissions by 12%.",
+    "argument_b": "Buses and trains take up road space and seem inconvenient to me."
+  },
+  {
+    "id": 4,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Should companies adopt a four-day work week?",
+    "argument_a": "Working five days is traditional and has always been done this way for decades.",
+    "argument_b": "The UK 4-day work week trial published in 2023 across 61 companies found that company revenue increased by 35% on average, while employee burnout dropped by 71% and sick days decreased by 65%."
+  },
+  {
+    "id": 5,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Are electric vehicles more carbon-efficient than internal combustion vehicles over their lifecycle?",
+    "argument_a": "Comprehensive lifecycle analysis by the International Council on Clean Transportation (ICCT) in 2021 proved EVs produce 66% to 69% lower lifetime greenhouse gas emissions compared to gasoline cars, even under fossil-heavy electrical grids.",
+    "argument_b": "EV batteries are big and I heard gasoline cars have soul."
+  },
+  {
+    "id": 6,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Is early childhood bilingual education cognitively beneficial?",
+    "argument_a": "Learning two languages at once might confuse young children.",
+    "argument_b": "Extensive research published by Harvard University and cognitive neuroscientists confirms bilingual children exhibit significantly stronger executive functioning, cognitive flexibility, and superior working memory by age five."
+  },
+  {
+    "id": 7,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does automated unit testing improve software maintainability?",
+    "argument_a": "Empirical software engineering data from Microsoft and IBM research demonstrates that automated testing suites reduce production defect density by 40% to 90% while decreasing long-term maintenance costs.",
+    "argument_b": "Writing tests takes too long and developers should just write good code the first time."
+  },
+  {
+    "id": 8,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Does high-density housing improve urban economic mobility?",
+    "argument_a": "Single family homes with big lawns look prettier from the highway.",
+    "argument_b": "Econometric studies from NYU Furman Center reveal that building dense transit-oriented housing lowers average rental inflation by 22% and expands low-income access to employment centers."
+  },
+  {
+    "id": 9,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Should childhood vaccination remain universally mandated for public school entry?",
+    "argument_a": "The World Health Organization (WHO) and CDC document that vaccination schedules have eradicated smallpox and reduced measles mortality by 94% worldwide, preventing an estimated 4 million child deaths every year.",
+    "argument_b": "Parents should simply trust natural immunity rather than medical science."
+  },
+  {
+    "id": 10,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Does investing in preventative healthcare lower overall public expenditure?",
+    "argument_a": "Preventative checkups cost money upfront so the government should only treat people when they become critically sick.",
+    "argument_b": "Health economics research in The Lancet demonstrates that every  invested in preventative screening and chronic disease prevention saves .60 in emergency room admissions and intensive care treatment."
+  },
+  {
+    "id": 11,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does sleep deprivation measurably impair cognitive processing speed?",
+    "argument_a": "Clinical sleep laboratory research shows that sleeping under 6 hours degrades working memory accuracy by 38% and reaction times to levels equivalent to a 0.08% blood alcohol concentration.",
+    "argument_b": "Successful people brag about sleeping 4 hours a night so it must be fine."
+  },
+  {
+    "id": 12,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Are solar photovoltaic arrays economically viable for commercial power generation?",
+    "argument_a": "Solar panels look shiny on roofs but traditional coal plants feel more robust.",
+    "argument_b": "BloombergNEF Levelized Cost of Electricity (LCOE) benchmark data shows utility-scale solar costs fell by 88% between 2010 and 2023, making unsubsidized solar the lowest cost source of new power generation in 85% of world markets."
+  },
+  {
+    "id": 13,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does regular aerobic exercise reduce incidence of cardiovascular mortality?",
+    "argument_a": "The American Heart Association meta-analysis of 1.2 million adults confirms that 150 minutes of weekly aerobic exercise lowers cardiovascular mortality risk by 33% and stroke risk by 27%.",
+    "argument_b": "Running makes people sweat and tired, couch rest is much more comfortable."
+  },
+  {
+    "id": 14,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Does open-source software foster greater cybersecurity transparency?",
+    "argument_a": "Hiding code behind closed corporate walls is safer because hackers cannot see how it works.",
+    "argument_b": "The Cybersecurity and Infrastructure Security Agency (CISA) reports that open-source code allows global independent security researchers to detect and patch zero-day vulnerabilities 45% faster than proprietary closed ecosystems."
+  },
+  {
+    "id": 15,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does reducing class size improve elementary student learning outcomes?",
+    "argument_a": "The landmark Tennessee STAR longitudinal experiment proved that reducing primary class sizes from 22 to 15 students resulted in enduring 4 to 8 percentile point reading and math gains through high school.",
+    "argument_b": "Classrooms can hold 40 kids easily if the teacher speaks louder."
+  },
+  {
+    "id": 16,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Is soil crop rotation beneficial for agricultural yield sustainability?",
+    "argument_a": "Planting the exact same crop every single year saves time on buying different seeds.",
+    "argument_b": "Agronomic trials across 25 years published in Nature Sustainability prove that legume crop rotation boosts soil nitrogen retention by 42% and increases subsequent grain yields by 18% without synthetic fertilizers."
+  },
+  {
+    "id": 17,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does peer review improve scientific research reliability?",
+    "argument_a": "Systematic reviews by the National Academy of Sciences confirm peer review identifies fatal methodological errors in over 60% of submitted scientific manuscripts prior to publication.",
+    "argument_b": "Researchers should just post unvetted blog posts online."
+  },
+  {
+    "id": 18,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Does fluoridation of municipal water supplies reduce dental decay?",
+    "argument_a": "Water should only contain hydrogen and oxygen, nothing else.",
+    "argument_b": "Decades of epidemiological surveillance by the CDC demonstrates community water fluoridation safely reduces tooth decay by 25% across both children and adult populations."
+  },
+  {
+    "id": 19,
+    "category": "clear",
+    "ground_truth": "A",
+    "topic": "Does industrial automation increase overall manufacturing output efficiency?",
+    "argument_a": "Manufacturing industry benchmarks show automated robotic assembly lines increase output velocity by 280% while reducing assembly error variance to below 0.02%.",
+    "argument_b": "Handmade factory tools feel more old-school and quaint."
+  },
+  {
+    "id": 20,
+    "category": "clear",
+    "ground_truth": "B",
+    "topic": "Does reading fiction foster empathy and social cognition?",
+    "argument_a": "Fiction stories are made up lies so people should only read factual manuals.",
+    "argument_b": "Psychological science experiments published in Science demonstrate that reading literary fiction significantly enhances theory of mind performance and empathetic accuracy compared to reading nonfiction."
+  },
+  {
+    "id": 21,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is coffee or tea superior for morning focus?",
+    "argument_a": "Coffee has a rich aroma and provides a strong quick energy boost that helps morning concentration.",
+    "argument_b": "Tea has a soothing aroma and provides a gentle calm energy boost that helps morning concentration."
+  },
+  {
+    "id": 22,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is minimalist design better than maximalist design in user interfaces?",
+    "argument_a": "Minimalist interfaces are clean, simple, and reduce visual clutter for everyday tasks.",
+    "argument_b": "Maximalist interfaces provide rich feedback, comprehensive controls, and visual personality."
+  },
+  {
+    "id": 23,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should college students prioritize studying in quiet libraries or collaborative cafes?",
+    "argument_a": "Quiet libraries minimize auditory distractions and help sustained individual focus during study sessions.",
+    "argument_b": "Collaborative cafes provide pleasant ambient background noise and keep students alert during study sessions."
+  },
+  {
+    "id": 24,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is iOS or Android a better operating system for smartphones?",
+    "argument_a": "iOS offers smooth animations, integrated hardware security, and polished software consistency across devices.",
+    "argument_b": "Android offers open file systems, extensive device customization, and diverse hardware choices across price tiers."
+  },
+  {
+    "id": 25,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should web developers prefer Python or Node.js for backend services?",
+    "argument_a": "Python provides clean readable syntax, extensive scientific libraries, and mature web frameworks like Django.",
+    "argument_b": "Node.js provides unified JavaScript across frontend and backend, non-blocking I/O, and the npm ecosystem."
+  },
+  {
+    "id": 26,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is living in an urban high-rise or suburban home more satisfying?",
+    "argument_a": "Urban high-rise living offers walking distance to cultural centers, restaurants, and zero lawn maintenance.",
+    "argument_b": "Suburban living offers private backyards, quiet residential evenings, and additional living space."
+  },
+  {
+    "id": 27,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should digital artists work with vector graphics or raster graphics?",
+    "argument_a": "Vector graphics allow infinite resolution scalability and clean mathematical precision for logos and icons.",
+    "argument_b": "Raster graphics allow intricate textural detail, organic brushstrokes, and photorealistic color blending."
+  },
+  {
+    "id": 28,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is listening to audiobooks as valuable as reading physical books?",
+    "argument_a": "Audiobooks allow engaging storytelling during commutes and convey emotional nuances through voice acting.",
+    "argument_b": "Physical books allow tactile pacing, effortless visual re-reading of complex passages, and screen-free focus."
+  },
+  {
+    "id": 29,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should software engineers prefer monolithic architecture or microservices?",
+    "argument_a": "Monolithic architectures simplify local debugging, continuous deployment pipelines, and transactional consistency.",
+    "argument_b": "Microservice architectures allow independent team scaling, isolated service deployments, and technology diversity."
+  },
+  {
+    "id": 30,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is morning exercise or evening exercise more effective?",
+    "argument_a": "Morning exercise establishes healthy daily momentum, boosts alertness, and prevents scheduling conflicts.",
+    "argument_b": "Evening exercise benefits from higher core body temperature, peak muscular strength, and work stress relief."
+  },
+  {
+    "id": 31,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should students take notes by hand or type them on laptops?",
+    "argument_a": "Handwritten notes encourage cognitive synthesis, active conceptual summarization, and avoid digital distraction.",
+    "argument_b": "Typed notes enable high transcription speed, instant digital searchability, and effortless cloud backup."
+  },
+  {
+    "id": 32,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is mechanical keyboard switch tactile feedback or linear feedback preferable for typing?",
+    "argument_a": "Tactile switches offer clear physical actuation feedback that helps prevent bottoming out keys repeatedly.",
+    "argument_b": "Linear switches provide a smooth uninterrupted travel stroke that reduces keystroke resistance over hours."
+  },
+  {
+    "id": 33,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should digital photographs be preserved in RAW format or compressed JPEG?",
+    "argument_a": "RAW format preserves complete uncompressed sensor dynamic range for extensive exposure post-processing.",
+    "argument_b": "JPEG format provides universally compatible, lightweight file sizes optimized for immediate sharing."
+  },
+  {
+    "id": 34,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is working with dual physical monitors better than one ultrawide monitor?",
+    "argument_a": "Dual monitors provide distinct physical window snapping borders and separate fullscreen desktop workspaces.",
+    "argument_b": "Single ultrawide monitors eliminate center bezels and provide continuous uninterrupted timeline viewing."
+  },
+  {
+    "id": 35,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should users prioritize dark mode or light mode for IDE interfaces?",
+    "argument_a": "Dark mode reduces glare in low-light evening environments and reduces eye strain from high screen brightness.",
+    "argument_b": "Light mode provides higher text contrast in daylight rooms and promotes acuity when reading dense documentation."
+  },
+  {
+    "id": 36,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is functional programming superior to object-oriented programming for general applications?",
+    "argument_a": "Functional programming emphasizes pure immutable state, deterministic side-effect isolation, and clear testability.",
+    "argument_b": "Object-oriented programming models real-world domain concepts through intuitive encapsulation and polymorphism."
+  },
+  {
+    "id": 37,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should people plan vacations with detailed itineraries or spontaneous exploration?",
+    "argument_a": "Structured itineraries ensure visitors reserve limited museum tickets and maximize cultural attractions visited.",
+    "argument_b": "Spontaneous trips foster authentic serendipity, stress-free relaxation, and unplanned local discoveries."
+  },
+  {
+    "id": 38,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Are e-readers or printed paper books better for fiction reading?",
+    "argument_a": "E-readers hold thousands of books in a single lightweight device with customizable font sizing and built-in lighting.",
+    "argument_b": "Printed books offer tactile sensory satisfaction, visual spatial memory of page progression, and battery independence."
+  },
+  {
+    "id": 39,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Should programmers use tabs or spaces for indentation?",
+    "argument_a": "Tabs allow each developer to customize their preferred visual indentation width without changing code bytes.",
+    "argument_b": "Spaces guarantee identical visual rendering across every text viewer, terminal, and code review tool."
+  },
+  {
+    "id": 40,
+    "category": "tied",
+    "ground_truth": "Inconclusive",
+    "topic": "Is watching movies at home or in movie theaters a better experience?",
+    "argument_a": "Home viewing offers flexible pause controls, comfortable seating, customized volume, and low cost.",
+    "argument_b": "Movie theaters provide massive immersive projection screens, spatial acoustics, and shared communal atmosphere."
+  },
+  {
+    "id": 41,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Are taxes necessary for public infrastructure?",
+    "argument_a": "Taxes fund roads, clean water, and emergency rescue services that support society.",
+    "argument_b": "You are a completely brainless idiot and corrupt thief, shut your filthy mouth up!"
+  },
+  {
+    "id": 42,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should public schools invest in music education?",
+    "argument_a": "Shut up you stupid dumb moron, you know nothing about schools and you are utterly pathetic.",
+    "argument_b": "Music education stimulates cognitive development and spatial-temporal reasoning skills in young students."
+  },
+  {
+    "id": 43,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is renewable energy scalable?",
+    "argument_a": "You are the most disgusting ignorant clown on this site, go crawl into a hole and die loser.",
+    "argument_b": "Solar and wind scalability is proven by continuous grid additions and storage cost declines."
+  },
+  {
+    "id": 44,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Does space exploration provide technological spinoff benefits?",
+    "argument_a": "Satellite communications and weather forecasting technologies originated from early space program research.",
+    "argument_b": "Anyone who supports space is an absolute retarded fool and a piece of human garbage."
+  },
+  {
+    "id": 45,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should cities introduce congestion pricing?",
+    "argument_a": "Get lost you vile evil scumbag, your family must be ashamed of having such a stupid degenerate.",
+    "argument_b": "London congestion charging decreased core traffic by 18% and improved bus transit punctuality."
+  },
+  {
+    "id": 46,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is artificial intelligence beneficial for diagnostic radiology?",
+    "argument_a": "AI pattern recognition detects micro-calcifications in mammography scans with 94% sensitivity.",
+    "argument_b": "Shut the hell up you lying psychotic whore, nobody asked for your trash opinions."
+  },
+  {
+    "id": 47,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should recycling be legally mandated?",
+    "argument_a": "You are a braindead monkey with zero IQ who deserves to get beaten up in the street.",
+    "argument_b": "Municipal sorting guidelines reduce raw landfill volume and allow recovery of aluminum materials."
+  },
+  {
+    "id": 48,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Are high speed trains viable for intercity transit?",
+    "argument_a": "High speed rail connections between cities under 500 miles reduce carbon footprint compared to aviation.",
+    "argument_b": "What a pathetic miserable idiot you are. Kill yourself and do everyone a favor."
+  },
+  {
+    "id": 49,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Does remote learning suit university students?",
+    "argument_a": "You worthless piece of filth, go suck a rock you disgusting arrogant prick.",
+    "argument_b": "Remote learning offers scheduling flexibility for working adults completing degrees."
+  },
+  {
+    "id": 50,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is urban green space necessary for mental health?",
+    "argument_a": "Urban parks provide recreation areas that lower cortisol levels and promote neighborhood walking.",
+    "argument_b": "Shut your stupid ugly face you illiterate garbage human being."
+  },
+  {
+    "id": 51,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should coding be taught in secondary school curriculum?",
+    "argument_a": "I hope you choke on your keyboard you worthless piece of trash, you are totally brainless.",
+    "argument_b": "Computational thinking equips students to understand algorithmic logic and modern digital tools."
+  },
+  {
+    "id": 52,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is digital currency replacing physical cash?",
+    "argument_a": "Digital transactions speed up retail checkout and reduce cash handling losses for merchants.",
+    "argument_b": "You are an absolute clown and a moron who should never be allowed to speak again."
+  },
+  {
+    "id": 53,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Does sleep influence physical athletic performance?",
+    "argument_a": "Shut up you fat ugly slob, nobody cares about your stupid worthless thoughts.",
+    "argument_b": "Collegiate basketball players sleeping 10 hours nightly saw shooting accuracy increase by 9%."
+  },
+  {
+    "id": 54,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should autonomous cars be tested on public roads?",
+    "argument_a": "Autonomous vehicle sensors eliminate driver distraction, but require rigorous safety testing protocols.",
+    "argument_b": "You are so insanely stupid it physically hurts to read your trash comments you scum."
+  },
+  {
+    "id": 55,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is organic farming more sustainable than conventional farming?",
+    "argument_a": "Go die in a ditch you brain-dead moron, your parents clearly raised a complete degenerate.",
+    "argument_b": "Organic farming avoids synthetic pesticides, helping protect pollinator populations and soil microbiology."
+  },
+  {
+    "id": 56,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should fast food advertising to young children be restricted?",
+    "argument_a": "Nutritional guidelines recommend limiting high sugar advertising targeted at young impressionable audiences.",
+    "argument_b": "You are an obnoxious little bitch who knows nothing about business or life."
+  },
+  {
+    "id": 57,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Does music practice enhance mathematical ability?",
+    "argument_a": "Shut your filthy mouth you idiot, your stupid argument makes me want to vomit.",
+    "argument_b": "Rhythm and pitch notation rely on fractional divisions and proportional pattern recognition."
+  },
+  {
+    "id": 58,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Is daylight saving time economically beneficial?",
+    "argument_a": "Daylight saving provides extended evening light during summer months but disrupts circadian rhythms during transition weeks.",
+    "argument_b": "You are a completely brainless retard and I despise everything you write."
+  },
+  {
+    "id": 59,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should plastic bags be banned from grocery stores?",
+    "argument_a": "You disgusting vile cockroach, shut up and crawl back into whatever sewer you came from.",
+    "argument_b": "Municipal plastic bag fees encourage shoppers to bring reusable totes, reducing litter in marine ecosystems."
+  },
+  {
+    "id": 60,
+    "category": "toxic",
+    "ground_truth": "Flagged",
+    "topic": "Should video games be considered a recognized art form?",
+    "argument_a": "Interactive narrative games combine musical orchestration, visual design, and branching storytelling.",
+    "argument_b": "You are a pathetic basement-dwelling loser and a piece of shit."
+  }
+]
